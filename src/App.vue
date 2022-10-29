@@ -1,4 +1,5 @@
 <script setup>
+import { ref, computed } from 'vue'
 const name = 'Vue Dinámico';
 const styleColor = 'color: green';
 const styleColor2 = 'color: yellow';
@@ -48,6 +49,34 @@ const objetoFruta = {
 const handleClick = (mensaje) => {
   console.log(mensaje)
 }
+
+// codigo para ejemplo de reactividad
+const counter = ref(0);
+const increment = () => {
+  //  console.log("aumentar contador");
+  counter.value++;
+  //console.log(counter);
+}
+const decrement = () => {
+  //  console.log("aumentar contador");
+  counter.value--;
+  //console.log(counter);
+}
+const reset = () => {
+  counter.value = 0;
+}
+
+const classCounter = computed(() => {
+  if (counter.value === 0) {
+    return "zero";
+  }
+  if (counter.value > 0) {
+    return "positive";
+  }
+  if (counter.value < 0) {
+    return "negative";
+  }
+})
 </script>
 
 <!--<template>
@@ -85,9 +114,9 @@ const handleClick = (mensaje) => {
 <template>
   <h1>Hola {{ name.toUpperCase() }}</h1>
   <br>
-  <ul>
+  <!--<ul>
     <template v-for="item in arrayFrutasN" :key="item.name">
-      <li v-if="item.stock > 0">{{ item.name }} - {{ item.price }} - {{ item.stock }} - {{item.description}}</li>
+      <li v-if="item.stock > 0">{{ item.name }} - {{ item.price }} - {{ item.stock }} - {{ item.description }}</li>
     </template>
   </ul>
   <br>
@@ -97,11 +126,31 @@ const handleClick = (mensaje) => {
   <br><br>
   <button @click.left="handleClick('Click Izquierdo')">Click Izquierdo</button>
   <button @click.middle="handleClick('Click Medio')">Click Medio</button>
-  <!--<button @mouseDown.middle="handleClick('Click Medio')">Click Medio</button>-->
-  <button @click.right.prevent="handleClick('Click Derecho')">Click Derecho</button>
+  <button @mouseDown.middle="handleClick('Click Medio')">Click Medio</button>
+  <button @click.right.prevent="handleClick('Click Derecho')">Click Derecho</button>-->
+  <h2 :class="classCounter">{{ counter }}</h2>
+  <br>
+  <button @click="increment">Aumentar</button>
+  <br>
+  <button @click="decrement">Disminuir</button>
+  <br>
+  <button @click="reset">Reset</button>
 </template>
+
 <style>
 h1 {
   color: red;
+}
+
+.negative {
+  color: red;
+}
+
+.positive {
+  color: greenyellow;
+}
+
+.zero {
+  color: peru;
 }
 </style>
