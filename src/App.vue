@@ -52,19 +52,26 @@ const handleClick = (mensaje) => {
 
 // codigo para ejemplo de reactividad
 const counter = ref(0);
+const arrayNumFav = ref([]);
+
 const increment = () => {
-  //  console.log("aumentar contador");
   counter.value++;
-  //console.log(counter);
 }
 const decrement = () => {
-  //  console.log("aumentar contador");
   counter.value--;
-  //console.log(counter);
 }
 const reset = () => {
   counter.value = 0;
 }
+const add = () => {
+  arrayNumFav.value.push(counter.value);
+}
+
+const bloquearBtnAdd = computed(() => {
+  const numSearch = arrayNumFav.value.find((num) => num === counter.value);
+  if (numSearch === 0) return true;
+  return numSearch ? true : false;
+});
 
 const classCounter = computed(() => {
   if (counter.value === 0) {
@@ -112,9 +119,10 @@ const classCounter = computed(() => {
 
  <!--Ejemplo de V-for + V-if + Template-->
 <template>
-  <h1>Hola {{ name.toUpperCase() }}</h1>
-  <br>
-  <!--<ul>
+  <div class="container text-center mt-3">
+    <h1>Hola {{ name.toUpperCase() }}</h1>
+    <br>
+    <!--<ul>
     <template v-for="item in arrayFrutasN" :key="item.name">
       <li v-if="item.stock > 0">{{ item.name }} - {{ item.price }} - {{ item.stock }} - {{ item.description }}</li>
     </template>
@@ -128,18 +136,23 @@ const classCounter = computed(() => {
   <button @click.middle="handleClick('Click Medio')">Click Medio</button>
   <button @mouseDown.middle="handleClick('Click Medio')">Click Medio</button>
   <button @click.right.prevent="handleClick('Click Derecho')">Click Derecho</button>-->
-  <h2 :class="classCounter">{{ counter }}</h2>
-  <br>
-  <button @click="increment">Aumentar</button>
-  <br>
-  <button @click="decrement">Disminuir</button>
-  <br>
-  <button @click="reset">Reset</button>
+    <h2 :class="classCounter">{{ counter }}</h2>
+    <br>
+    <div class="btn-group">
+      <button @click="increment" class="btn btn-success">Aumentar</button>
+      <button @click="decrement" class="btn btn-danger">Disminuir</button>
+      <button @click="reset" class="btn btn-secondary">Reset</button>
+      <button @click="add" :disabled="bloquearBtnAdd" class="btn btn-primary">Add</button>
+    </div>
+    <ul class="list-group mt-4">
+      <li v-for="(num, index) in arrayNumFav" :key="index" class="list-group-item">{{ num }}</li>
+    </ul>
+  </div>
 </template>
 
 <style>
 h1 {
-  color: red;
+  color: purple;
 }
 
 .negative {
