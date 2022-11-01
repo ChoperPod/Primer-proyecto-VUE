@@ -10,7 +10,7 @@ const arrayFrutasN = [
   {
     name: "Manzana",
     price: "$1.00",
-    description: "Una manzana",
+    description: "Una manzaniza",
     stock: 10,
   },
   {
